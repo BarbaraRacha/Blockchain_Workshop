@@ -1,30 +1,31 @@
 package ma.enset.blockchain_project.classes;
 
-// HashUtil.java
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashUtil {
 
-    public static String applySha256(String input) {
+    private HashUtil(){
+        throw new IllegalAccessError("Invalid call to constructor");
+    }
+    public static String calculateSHA256(String data) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = digest.digest(data.getBytes());
+
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
-                hexString.append(String.format("%02x", b));
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+        return null;
     }
-
-   /* public static void main(String[] args) {
-        String data = "Hello, Blockchain!";
-        String hash = applySha256(data);
-        System.out.println("Hash: " + hash);
-    }*/
 }
 

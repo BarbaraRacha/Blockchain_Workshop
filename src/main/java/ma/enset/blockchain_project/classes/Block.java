@@ -35,7 +35,7 @@ public class Block {
 
     public String calculateHash() {
         String input = index + previousHash + timestamp + data + nonce;
-        return HashUtil.applySha256(input);
+        return HashUtil.calculateSHA256(input);
     }
 
     public void mineBlock(int difficulty) {
